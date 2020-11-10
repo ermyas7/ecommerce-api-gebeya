@@ -1,0 +1,8 @@
+{
+  "name": "ecommerce-api",
+  "version": "1.0.0",
+  "description": "e-commerce items listing",
+  "main": "app.js",
+  "author": "Ermyas Fekadu",
+  "license": "MIT"
+}
