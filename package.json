@@ -6,11 +6,13 @@
   "author": "Ermyas Fekadu",
   "license": "MIT",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node app.js ",
+    "dev": "nodemon  app.js"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "lodash": "^4.17.20",
+    "mongoose": "^5.10.13"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

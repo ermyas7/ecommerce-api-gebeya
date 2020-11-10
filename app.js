@@ -1,7 +1,9 @@
+const config =  require('./src/config')
 const express = require('express')
+const db = require('./src/db')
 
 const app = express()
-const PORT = process.env.PORT || 8000
+const PORT = config.port
 
 app.get('/', (req, res) => {
     res.json({
