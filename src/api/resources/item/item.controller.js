@@ -6,9 +6,9 @@ const createOne = async (req, res) => {
     console.log(req.body)
     
     const body = _.pick(req.body, 
-        ['name', 'photo', 'price']);
+        ['name', 'photo', 'price', 'description']);
     try{
-        const item = await Item.create(body)
+        const item = await Item.create({vendor: req.user._id,...body})
         console.log(item)
         res.status(200).json({
             success: true, 
@@ -53,10 +53,21 @@ const getOne = async (req, res) => {
 
     console.log(id)
     try{
-        const item = await Item.findById(id)
+        const item = await Item.findById(id).populate('vendor').exec()
+        const itemData = {
+            _id: item._id,
+            name: item.name,
+            price: item.price,
+            photo: item.photo,
+            vendor: {
+                _id: item.vendor._id,
+                username: item.vendor.username,
+                name: item.vendor.name
+            }
+        }
         res.status(200).json({
             success: true,
-            data: item
+            data: itemData
         })
     }catch(err){
         console.log(err)
@@ -69,7 +80,12 @@ const deleteOne = async (req, res) => {
 
     console.log(id)
     try{
-        const item = await Item.findByIdAndRemove(id)
+        const item = await Item.findById(id)
+        console.log(item)
+        if(item  && (item.vendor != req.user._id)){
+            res.status(400).send({error: 'You are are not authorized'})
+        }
+        await Item.findByIdAndDelete(id)
         res.status(200).json({
             success: true
         })
@@ -86,6 +102,13 @@ const updateOne = async (req, res) => {
 
     try{
         const item = await Item.findById(id)
+        console.log(item)
+        if(!item){
+          return res.status(404).json({error: 'Item not found'})  
+        }
+        if(item  && (item.vendor != req.user._id)){
+            return res.status(400).json({error: 'You are are not authorized'})
+        }
         if(name) item.name = name
         if(photo) item.photo = photo
         if(price) item.price = price
@@ -97,7 +120,7 @@ const updateOne = async (req, res) => {
         })
     }catch(err){
         console.log(err)
-        res.status(500).send({error: 'Internal error'})
+        res.status(500).json({error: 'Internal error'})
     }
 }
 

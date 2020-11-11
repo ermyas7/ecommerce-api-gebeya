@@ -6,7 +6,7 @@ const createOne = async (req, res) => {
         ['items'])
         
     try{
-        const items = await Cart.create(body)
+        const items = await Cart.create({user: req.user._id,...body})
         res.status(200).json({
             success: true,
             data: items
@@ -21,7 +21,7 @@ const createOne = async (req, res) => {
 const getAll = async (req, res) => {
         
     try{
-        const items = await Cart.find({}).populate('items.data').exec()
+        const items = await Cart.find({user: req.user._id}).populate('items.data').populate('items.data.vendor').exec()
         res.status(200).json({
             success: true,
             data: items

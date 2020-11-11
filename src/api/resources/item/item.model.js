@@ -15,12 +15,14 @@ const schema = {
         required: [true, 'Price is required!']
     },
     description: {
-        type: String
+        type: String,
+        require: [true, 'Description is required!']
     },
-    vendorName: {
-        type: String
-    }
-    
+    vendor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+        require: true
+        }
 }
 
 const itemSchema = new mongoose.Schema(schema)

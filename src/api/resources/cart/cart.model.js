@@ -12,7 +12,12 @@ const schema = {
     created_at: {
         type: Date,
         default: Date.now()
-    }
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+        required: true
+        }
 }
 
 const cartSchema = new mongoose.Schema(schema)

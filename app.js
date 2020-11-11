@@ -2,7 +2,9 @@ const config =  require('./src/config')
 const express = require('express')
 const db = require('./src/db')
 db()
+const clearDb = require('./src/api/cleardb')
 
+//clearDb()
 const app = express()
 
 app.use(express.json())
