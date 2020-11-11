@@ -11,12 +11,21 @@ userRouter.get("/", (req, res) => {
 
 /*
 // @params none
-// body username, password
+// body username, password, name
 // method post
 //auth none
 //signup user
 */
 userRouter.post("/", userController.createUser);
+
+/*
+// @params none
+// body username, password
+// method post
+//auth none
+//signin user
+*/
+userRouter.post("/auth", userController.loginUser);
 
 
 

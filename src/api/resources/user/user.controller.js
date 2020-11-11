@@ -6,15 +6,50 @@ const jwt  = require('jsonwebtoken')
 
 
 const createUser = async (req, res) => {
-    let {password, username} = _.pick(req.body, ['username', 'password'])
+    let {password, username, name} = _.pick(req.body, ['username', 'password', 'name'])
+  
     try{
+      if(!password || !username || !name){
+        res.status(400).json({error: 'name, username and password are required!'})
+      }
+
       if(password && password.length < 7){
         res.status(400).json({error: 'Min password length should be atleast 7'})
       }
 
       const saltRound = 10
       const passwordHash = await bcrypt.hash(password, saltRound)
-      const user = await User.create({passwordHash, username})
+      const user = await User.create({passwordHash, username,name})
+      const userData = _.pick(user, ['_id', 'username'])
+      const accessToken = jwt.sign(userData, config.secret)
+      console.log(accessToken)
+      res.header('x-auth',`Bearer ${accessToken}`).json({success: true, token: `Bearer ${accessToken}`}) 
+
+    }catch(err){
+      console.log({error: err})
+      res.status(400).json({Error: 'Some error'})
+    }
+}
+
+const loginUser = async (req, res) => {
+    let {password, username} = _.pick(req.body, ['username', 'password'])
+    try{
+      if(!password || !username){
+        res.status(400).json({error: 'Password and username are required!'})
+      }
+
+      
+      const user = await User.find({username})
+      if(!user){
+        res.status(400).json({error: 'User not found!'})
+      }
+      console.log(user, password)
+      const isValid = await bcrypt.compare(password, user[0].passwordHash)
+      
+      if(!isValid){
+        res.status(400).json({error: 'Invalid detail please check password and username!'})
+      }
+
       const userData = _.pick(user, ['_id', 'username'])
       const accessToken = jwt.sign(userData, config.secret)
       console.log(accessToken)
@@ -27,5 +62,6 @@ const createUser = async (req, res) => {
 }
 
 module.exports = {
-  createUser
+  createUser,
+  loginUser
 }
