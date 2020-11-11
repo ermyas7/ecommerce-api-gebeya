@@ -7,5 +7,6 @@ restRouter.get('/', (req, res) => {
 })
 
 restRouter.use('/item', require('./resources/item'))
+restRouter.use('/cart', require('./resources/cart'))
 
 module.exports = restRouter
