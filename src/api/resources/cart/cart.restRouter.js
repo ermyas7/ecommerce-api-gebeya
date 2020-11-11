@@ -10,11 +10,7 @@ const cartRouter = express.Router()
 //get all  items
 */
 
-cartRouter.get('/',(req, res) => {
-    res.json({
-        'cart': 'cart data comes from here'
-    })
-})
+cartRouter.get('/',cartController.getAll)
 
 /*
 // @params none
@@ -25,6 +21,14 @@ cartRouter.get('/',(req, res) => {
 
 cartRouter.post('/', cartController.createOne)
 
+/*
+// @params none
+// method post
+//auth private
+//All many  items
+*/
+
+cartRouter.delete('/:id/:item_id', cartController.removeItem)
 
 
 module.exports = cartRouter

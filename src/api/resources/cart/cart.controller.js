@@ -18,6 +18,51 @@ const createOne = async (req, res) => {
     }    
 }
 
+const getAll = async (req, res) => {
+        
+    try{
+        const items = await Cart.find({}).populate('items.data').exec()
+        res.status(200).json({
+            success: true,
+            data: items
+        })
+    }catch(err){
+        res.status(404).json({
+            error: 'Could not add items'
+        })
+    }    
+}
+
+const removeItem = async (req, res) => {
+    let {id, item_id} = req.params
+        
+    try{
+        const cart = await Cart.findById(id)
+        
+        let newCartItem = cart.items.map((item) => {
+            let newItem = item
+            if(item.data == item_id){
+                newItem.quantity = newItem.quantity > 0 ?  --newItem.quantity : newItem.quantity
+            }
+            return newItem
+        })
+        newCartItem = newCartItem.filter((item) => item.quantity > 0)
+
+        cart.items = newCartItem
+        await cart.save()
+        console.log(newCartItem, item_id)
+        res.status(200).json({
+            success: true
+        })
+    }catch(err){
+        res.status(404).json({
+            error: 'Could not remove items'
+        })
+    }    
+}
+
 module.exports = {
-    createOne
+    createOne,
+    getAll,
+    removeItem
 }
