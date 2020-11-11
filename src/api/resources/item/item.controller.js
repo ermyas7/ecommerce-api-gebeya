@@ -10,18 +10,46 @@ const createOne = async (req, res, next) => {
     try{
         const item = await Item.create(body)
         console.log(item)
-        res.status(200).send({
+        res.status(200).json({
             success: true, 
             data: item
         })
 
     }catch(err ){
         console.log(err)
-        res.status(404).send({error: 'Error occurred'})
+        res.status(404).json({error: 'Error occurred'})
+    }
+}
+
+const getAll = async (req, res, next) => {
+    let { page = 1, limit = 5, asc = 1 } = req.query;
+
+    try{
+
+        const items = await Item.find({})
+        .sort({ price: asc })
+        .limit(limit * 1)
+        .skip((page - 1) * limit)
+        .exec();
+
+        // get total documents in the Posts collection 
+        const count = await Item.countDocuments();
+
+        res.json(
+            {success: true,
+            data: {
+                items,
+                totalCount: count,
+                currentPage: page
+            }
+        })
+    }catch(err){
+        res.status(404).json({Error: 'Could not get the data'})
     }
 }
 
 
 module.exports = {
-    createOne
+    createOne,
+    getAll
 }

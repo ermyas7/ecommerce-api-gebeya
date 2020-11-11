@@ -12,9 +12,7 @@ const itemRouter = express.Router()
 //get all  items
 */
 
-itemRouter.get('/', (req, res) => {
-    res.json({work: 'this is from item'})
-})
+itemRouter.get('/',itemController.getAll)
 
 itemRouter.post('/', itemController.createOne)
 

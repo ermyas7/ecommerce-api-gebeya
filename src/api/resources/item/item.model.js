@@ -11,7 +11,7 @@ const schema = {
             required: [true, 'Photo is required!']
     },
     price:{
-        type: String,
+        type: Number,
         required: [true, 'Price is required!']
     },
     description: {
