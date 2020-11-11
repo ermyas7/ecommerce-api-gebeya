@@ -64,10 +64,26 @@ const getOne = async (req, res) => {
     }
 }
 
+const deleteOne = async (req, res) => {
+    let {id} = req.params
+
+    console.log(id)
+    try{
+        const item = await Item.findByIdAndRemove(id)
+        res.status(200).json({
+            success: true
+        })
+    }catch(err){
+        console.log(err)
+        res.status(500).send({error: 'Internal error'})
+    }
+}
+
 
 
 module.exports = {
     createOne,
     getAll,
-    getOne
+    getOne,
+    deleteOne
 }

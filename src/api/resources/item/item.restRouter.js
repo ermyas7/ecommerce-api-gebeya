@@ -34,6 +34,15 @@ itemRouter.post('/', itemController.createOne)
 
 itemRouter.get('/:id', itemController.getOne)
 
+/*
+// @params id
+// method delete
+//auth private
+//delete one item
+*/
+
+itemRouter.delete('/:id', itemController.deleteOne)
+
 
 
 module.exports = itemRouter
