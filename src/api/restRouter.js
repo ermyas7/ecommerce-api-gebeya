@@ -8,5 +8,5 @@ restRouter.get('/', (req, res) => {
 
 restRouter.use('/item', require('./resources/item'))
 restRouter.use('/cart', require('./resources/cart'))
-
+restRouter.use('/user', require('./resources/user'))
 module.exports = restRouter
