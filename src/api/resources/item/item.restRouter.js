@@ -14,6 +14,26 @@ const itemRouter = express.Router()
 
 itemRouter.get('/',itemController.getAll)
 
+
+/*
+// @params none
+// body name, price, photo url, 
+// method post
+//auth private
+//add one  item
+*/
+
 itemRouter.post('/', itemController.createOne)
+
+/*
+// @params id
+// method get
+//auth private
+//get one item
+*/
+
+itemRouter.get('/:id', itemController.getOne)
+
+
 
 module.exports = itemRouter

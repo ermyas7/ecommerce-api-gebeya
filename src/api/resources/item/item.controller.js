@@ -2,7 +2,7 @@
 const Item = require('./item.model')
 const _ =  require('lodash')
 
-const createOne = async (req, res, next) => {
+const createOne = async (req, res) => {
     console.log(req.body)
     
     const body = _.pick(req.body, 
@@ -21,7 +21,7 @@ const createOne = async (req, res, next) => {
     }
 }
 
-const getAll = async (req, res, next) => {
+const getAll = async (req, res) => {
     let { page = 1, limit = 5, asc = 1 } = req.query;
 
     try{
@@ -48,8 +48,26 @@ const getAll = async (req, res, next) => {
     }
 }
 
+const getOne = async (req, res) => {
+    let {id} = req.params
+
+    console.log(id)
+    try{
+        const item = await Item.findById(id)
+        res.status(200).json({
+            success: true,
+            data: item
+        })
+    }catch(err){
+        console.log(err)
+        res.status(404).send({error: 'document not found'})
+    }
+}
+
+
 
 module.exports = {
     createOne,
-    getAll
+    getAll,
+    getOne
 }
