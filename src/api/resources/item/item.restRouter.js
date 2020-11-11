@@ -43,6 +43,15 @@ itemRouter.get('/:id', itemController.getOne)
 
 itemRouter.delete('/:id', itemController.deleteOne)
 
+/*
+// @params id
+// method patch
+//auth private
+//update one item
+*/
+
+itemRouter.patch('/:id', itemController.updateOne)
+
 
 
 module.exports = itemRouter

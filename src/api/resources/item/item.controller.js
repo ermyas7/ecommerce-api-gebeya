@@ -79,11 +79,33 @@ const deleteOne = async (req, res) => {
     }
 }
 
+const updateOne = async (req, res) => {
+    let {id} = req.params
+    const {name, photo, price} = _.pick(req.body, 
+        ['name', 'photo', 'price']);
+
+    try{
+        const item = await Item.findById(id)
+        if(name) item.name = name
+        if(photo) item.photo = photo
+        if(price) item.price = price
+
+        await item.save()
+        res.status(200).json({
+            success: true,
+            data: item
+        })
+    }catch(err){
+        console.log(err)
+        res.status(500).send({error: 'Internal error'})
+    }
+}
 
 
 module.exports = {
     createOne,
     getAll,
     getOne,
-    deleteOne
+    deleteOne,
+    updateOne
 }
