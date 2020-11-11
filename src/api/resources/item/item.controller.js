@@ -23,7 +23,7 @@ const createOne = async (req, res) => {
 
 const getAll = async (req, res) => {
     let { page = 1, limit = 5, asc = 1 } = req.query;
-
+    console.log('from item ', req.user)
     try{
 
         const items = await Item.find({})

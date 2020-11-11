@@ -50,9 +50,10 @@ const loginUser = async (req, res) => {
         res.status(400).json({error: 'Invalid detail please check password and username!'})
       }
 
-      const userData = _.pick(user, ['_id', 'username'])
+      const userData = _.pick(user[0], ['_id', 'username', 'name'])
+      console.log(userData)
       const accessToken = jwt.sign(userData, config.secret)
-      console.log(accessToken)
+      //console.log(accessToken)
       res.header('x-auth',`Bearer ${accessToken}`).json({success: true, token: `Bearer ${accessToken}`}) 
 
     }catch(err){
