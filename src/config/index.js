@@ -7,7 +7,7 @@ const env = process.env.NODE_ENV
 const baseConfig = {
     port: 5000,
     db: {
-        url: 'mongodb://localhost:27017/ecommerce-api'
+        url: 'mongodb://mongo:27017/ecommerce-api'
     },
     secret: 'daddfesfsfwefwrtrt45656666565656565656'
 }
