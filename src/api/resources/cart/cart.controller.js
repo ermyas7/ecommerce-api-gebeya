@@ -38,7 +38,14 @@ const removeItem = async (req, res) => {
         
     try{
         const cart = await Cart.findById(id)
+        if(!cart){
+            res.status(404).json({error: 'Item not found'})
+        }
         
+        if(cart.user != req.user._id){
+            res.status(401).json({error: 'You are not authorized!'})
+        }
+
         let newCartItem = cart.items.map((item) => {
             let newItem = item
             if(item.data == item_id){
@@ -47,7 +54,12 @@ const removeItem = async (req, res) => {
             return newItem
         })
         newCartItem = newCartItem.filter((item) => item.quantity > 0)
-
+        if(newCartItem && newCartItem.length === 0){
+            await Cart.findByIdAndRemove(id)
+            res.status(200).json({
+            success: true
+        })
+        }
         cart.items = newCartItem
         await cart.save()
         console.log(newCartItem, item_id)

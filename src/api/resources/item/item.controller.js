@@ -61,7 +61,7 @@ const getOne = async (req, res) => {
             photo: item.photo,
             vendor: {
                 _id: item.vendor._id,
-                username: item.vendor.username,
+                //username: item.vendor.username,
                 name: item.vendor.name
             }
         }
